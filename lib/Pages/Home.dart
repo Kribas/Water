@@ -1,6 +1,7 @@
 import 'package:drpani/Components/Categories.dart';
 import 'package:drpani/Components/ImageCarousel.dart';
 import 'package:drpani/Components/drawer.dart';
+import 'package:drpani/Pages/Refer.dart';
 import 'package:flutter/material.dart';
 
 
@@ -33,6 +34,18 @@ class Home extends StatelessWidget {
                 child: Categories()
             ),
             Divider(),
+
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReferScreen()));
+
+                },
+                child: Image.asset('images/Image1.jpg',
+                ),
+              ),
+            ),
 
             Padding(
               padding: const EdgeInsets.all(8.0),

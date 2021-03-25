@@ -1,6 +1,3 @@
-import 'package:drpani/Components/Categories.dart';
-import 'package:drpani/Components/ImageCarousel.dart';
-import 'package:drpani/Components/drawer.dart';
 import 'package:drpani/Pages/Home.dart';
 import 'package:drpani/Pages/Notifications.dart';
 import 'package:drpani/Pages/Profile.dart';

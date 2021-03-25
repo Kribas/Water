@@ -1,3 +1,7 @@
+import 'package:drpani/Pages/Feedback.dart';
+import 'package:drpani/Pages/MyRewards.dart';
+import 'package:drpani/Pages/ShopNow.dart';
+import 'package:drpani/Pages/TrackOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,7 +12,10 @@ class Categories extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ShopNowScreen()));
+
+          },
           child: Column(
             children: [
               CircleAvatar(
@@ -33,7 +40,10 @@ class Categories extends StatelessWidget {
         ),
 
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TrackOrderScreen()));
+
+          },
           child: Column(
             children: [
               CircleAvatar(
@@ -58,7 +68,10 @@ class Categories extends StatelessWidget {
         ),
 
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MyRewardsScreen()));
+
+          },
           child: Column(
             children: [
               CircleAvatar(
@@ -83,7 +96,10 @@ class Categories extends StatelessWidget {
         ),
 
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackScreen()));
+
+          },
           child: Column(
             children: [
               CircleAvatar(
