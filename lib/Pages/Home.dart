@@ -2,7 +2,7 @@ import 'package:drpani/Components/Categories.dart';
 import 'package:drpani/Components/ImageCarousel.dart';
 import 'package:drpani/Components/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class Home extends StatelessWidget {
   @override
@@ -29,8 +29,8 @@ class Home extends StatelessWidget {
             Divider(),
 
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Categories()
+                padding: const EdgeInsets.all(20.0),
+                child: Categories()
             ),
             Divider(),
 
@@ -39,10 +39,10 @@ class Home extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text('Products',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
-                  ),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
+                    ),
                   )),
             ),
 
@@ -50,6 +50,7 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
+
 
     );
   }

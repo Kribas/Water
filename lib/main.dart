@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'Pages/Home.dart';
+import 'Pages/App.dart';
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: Home(),
+    home: App(),
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
