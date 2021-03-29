@@ -1,4 +1,5 @@
 import 'package:drpani/Models/Product.dart';
+import 'package:drpani/Pages/ProductDetail.dart';
 import 'package:flutter/material.dart';
 
 class ShopNowScreen extends StatefulWidget {
@@ -18,7 +19,6 @@ class _ShopNowScreenState extends State<ShopNowScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetch();
   }
@@ -40,6 +40,9 @@ class _ShopNowScreenState extends State<ShopNowScreen> {
                 itemBuilder: (context,index) {
                   Product product = products[index];
                   return ListTile(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail()));
+                    },
                     title: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.blueAccent)
