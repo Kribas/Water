@@ -1,5 +1,6 @@
 import 'package:drpani/Components/Categories.dart';
 import 'package:drpani/Components/ImageCarousel.dart';
+import 'package:drpani/Components/Products.dart';
 import 'package:drpani/Components/drawer.dart';
 import 'package:drpani/Pages/Refer.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,8 @@ class Home extends StatelessWidget {
                     ),
                   )),
             ),
+
+            Products(),
 
 
           ],
