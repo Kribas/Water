@@ -35,39 +35,48 @@ class _ShopNowScreenState extends State<ShopNowScreen> {
       body: FutureBuilder(
           future: future,
           builder: (BuildContext context,AsyncSnapshot<dynamic> snapshot) {
-            var products = snapshot.data;
-            return ListView.separated(
-                itemBuilder: (context,index) {
-                  Product product = products[index];
-                  return ListTile(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail()));
+            switch(snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+              case ConnectionState.active:
+                return Center(child: CircularProgressIndicator(),);
+
+              default:
+                var products = snapshot.data;
+                return ListView.separated(
+                    itemBuilder: (context,index) {
+                      Product product = products[index];
+                      return ListTile(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail()));
+                        },
+                        title: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueAccent)
+                          ),
+                          child: Column(
+                            children: [
+                              Image(
+                                width: 200,
+                                height: 200,
+                                image: NetworkImage(product.picture),
+                              ),
+                              SizedBox(height: 10,),
+                              Text(product.name,
+                                style: TextStyle(
+                                    fontSize: 20
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
-                    title: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)
-                      ),
-                      child: Column(
-                        children: [
-                          Image(
-                            width: 200,
-                            height: 200,
-                            image: NetworkImage(product.picture),
-                          ),
-                          SizedBox(height: 10,),
-                          Text(product.name,
-                            style: TextStyle(
-                                fontSize: 20
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context,index) => Divider(),
-                itemCount: products?.length ?? 0
-            );
+                    separatorBuilder: (context,index) => Divider(),
+                    itemCount: products?.length ?? 0
+                );
+            }
+
           }
       ),
     );
