@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "190910906928",
+    "project_id": "drpani-d6e79",
+    "storage_bucket": "drpani-d6e79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190910906928:android:62763359d29b8d36d6a3f5",
+        "android_client_info": {
+          "package_name": "com.example.drpani"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190910906928-96fus4a7lm0re7htpqojifqjgoi1ns7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoNzJ0nGMNfszuFkgiAMRHJYQ-UskqcUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190910906928-96fus4a7lm0re7htpqojifqjgoi1ns7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

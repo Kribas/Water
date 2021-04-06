@@ -9,11 +9,17 @@ class LogIn extends StatefulWidget {
 
 class _LogInState extends State<LogIn> {
 
-  Widget _buildEmailTF() {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _mobileNumberController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+
+
+  Widget _buildNumberTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextField(
+        TextFormField(
           keyboardType: TextInputType.number,
           style: TextStyle(
             fontFamily: 'OpenSans',
@@ -22,6 +28,14 @@ class _LogInState extends State<LogIn> {
             hintText: 'Mobile Number',
             hintStyle: kHintTextStyle,
           ),
+          validator: (value) {
+            if(value.isEmpty) {
+              return 'The Number field cannot be empty';
+            }else {
+              return null;
+            }
+          },
+          controller: _mobileNumberController,
         ),
       ],
     );
@@ -31,7 +45,7 @@ class _LogInState extends State<LogIn> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextField(
+        TextFormField(
           obscureText: true,
           style: TextStyle(
             fontFamily: 'OpenSans',
@@ -40,6 +54,16 @@ class _LogInState extends State<LogIn> {
             hintText: 'Enter your Password',
             hintStyle: kHintTextStyle,
           ),
+          validator: (value) {
+            if(value.isEmpty) {
+              return 'The password field cannot be empty';
+            }else if(value.length < 4) {
+              return 'The password has to be atleast 4 characters long';
+            }else {
+              return null;
+            }
+          },
+          controller: _passwordController,
         ),
       ],
     );
@@ -64,7 +88,7 @@ class _LogInState extends State<LogIn> {
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
+      width: 300,
       child: RaisedButton(
         elevation: 0.0,
         onPressed: () {
@@ -110,7 +134,9 @@ class _LogInState extends State<LogIn> {
 
   Widget _buildSocialBtn(Function onTap, AssetImage logo) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+
+      },
       child: Container(
         height: 60.0,
         width: 60.0,
@@ -135,49 +161,15 @@ class _LogInState extends State<LogIn> {
   Widget _buildSocialBtnRow() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 30.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          _buildSocialBtn(
-                () => print('Login with Google'),
-            AssetImage(
-              'images/google.jpg',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () {
-
-      },
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.blue,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+      child: _buildSocialBtn(
+            () => print('Login with Google'),
+        AssetImage(
+          'images/google.jpg',
         ),
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -192,29 +184,36 @@ class _LogInState extends State<LogIn> {
                 height: double.infinity,
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 80,
-                    backgroundImage: ExactAssetImage('images/drpani_logo.jpg'),
-                  ),
-                      SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildPasswordTF(),
-                      _buildLoginBtn(),
-                      _buildForgotPasswordBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 80,
+                      backgroundImage: ExactAssetImage('images/drpani_logo.jpg'),
+                    ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              _buildNumberTF(),
+                              SizedBox(height: 30.0),
+                              _buildPasswordTF()
+
+                            ],
+                          ),
+                        ),
+                        _buildLoginBtn(),
+                        _buildForgotPasswordBtn(),
+                        _buildSignInWithText(),
+                        _buildSocialBtnRow(),
+                      ],
+                    ),
                   ),
                 ),
               )
