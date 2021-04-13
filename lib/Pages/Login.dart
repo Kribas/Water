@@ -10,7 +10,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
 
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _mobileNumberController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
 
@@ -20,22 +20,16 @@ class _LogInState extends State<LogIn> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         TextFormField(
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.emailAddress,
           style: TextStyle(
             fontFamily: 'OpenSans',
           ),
           decoration: InputDecoration(
-            hintText: 'Mobile Number',
+            hintText: 'Email',
             hintStyle: kHintTextStyle,
           ),
-          validator: (value) {
-            if(value.isEmpty) {
-              return 'The Number field cannot be empty';
-            }else {
-              return null;
-            }
-          },
-          controller: _mobileNumberController,
+          validator: (value) => !value.contains('@') ? "Field must contain a valid email" : null,
+          controller: _emailController,
         ),
       ],
     );
@@ -57,8 +51,8 @@ class _LogInState extends State<LogIn> {
           validator: (value) {
             if(value.isEmpty) {
               return 'The password field cannot be empty';
-            }else if(value.length < 4) {
-              return 'The password has to be atleast 4 characters long';
+            }else if(value.length < 6) {
+              return 'The password has to be atleast 6 characters long';
             }else {
               return null;
             }

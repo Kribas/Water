@@ -6,7 +6,17 @@ import 'package:drpani/Pages/Refer.dart';
 import 'package:flutter/material.dart';
 
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+
+  final String uid;
+
+  Home({this.uid});
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

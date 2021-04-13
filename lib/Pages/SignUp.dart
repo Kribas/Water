@@ -1,6 +1,11 @@
+import 'package:drpani/Pages/App.dart';
+import 'package:drpani/Pages/Home.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:drpani/Utilities/Constants.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:drpani/db/users.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -10,15 +15,21 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  //UserServices _userServices = UserServices();
+
+  DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users");
+
+
   TextEditingController _nameTextController = TextEditingController();
-  TextEditingController _mobileNumberTextController = TextEditingController();
+  TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _confirmPasswordTextController = TextEditingController();
-  TextEditingController _referralCodeTextController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
 
+  String category;
   String dropdownValue = "Category";
 
   Widget _buildNameTF() {
@@ -51,21 +62,16 @@ class _SignUpState extends State<SignUp> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         TextFormField(
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.emailAddress,
           style: TextStyle(
             fontFamily: 'OpenSans',
           ),
           decoration: InputDecoration(
-            hintText: 'Mobile Number',
+            hintText: 'Email',
             hintStyle: kHintTextStyle,
           ),
-          controller: _mobileNumberTextController,
-          validator: (value) {
-            if(value.isEmpty) {
-              return "The number field cannot be empty";
-            }
-            return null;
-          },
+          controller: _emailTextController,
+          validator: (value) => !value.contains('@') ? "Field must contain a valid email" : null,
         ),
       ],
     );
@@ -89,8 +95,8 @@ class _SignUpState extends State<SignUp> {
           validator: (value) {
             if(value.isEmpty) {
               return 'The password field cannot be empty';
-            }else if(value.length < 4) {
-              return 'The password has to be atleast 4 characters long';
+            }else if(value.length < 6) {
+              return 'The password has to be atleast 6 characters long';
             }else {
               return null;
             }
@@ -118,8 +124,8 @@ class _SignUpState extends State<SignUp> {
           validator: (value) {
             if(value.isEmpty) {
               return 'The password field cannot be empty';
-            }else if(value.length < 4) {
-              return 'The password has to be atleast 4 characters long';
+            }else if(value.length < 6) {
+              return 'The password has to be atleast 6 characters long';
             }else if(_passwordTextController.text!=value){
               return 'The passwords do not match';
             }else {
@@ -131,24 +137,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _buildReferralCodeTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TextFormField(
-          keyboardType: TextInputType.number,
-          style: TextStyle(
-            fontFamily: 'OpenSans',
-          ),
-          decoration: InputDecoration(
-            hintText: 'Referral Code(if any)',
-            hintStyle: kHintTextStyle,
-          ),
-          controller: _referralCodeTextController,
-        ),
-      ],
-    );
-  }
 
   Widget _buildCategory() {
     return Container(
@@ -194,7 +182,6 @@ class _SignUpState extends State<SignUp> {
       child: RaisedButton(
         elevation: 0.0,
         onPressed: () {
-
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -259,7 +246,6 @@ class _SignUpState extends State<SignUp> {
                               SizedBox(
                                 height: 30.0,
                               ),
-                              _buildReferralCodeTF(),
                             ],
                           ),
                         ),
@@ -284,6 +270,7 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
 }
 
 
