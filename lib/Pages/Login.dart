@@ -109,24 +109,7 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  Widget _buildSignInWithText() {
-    return Column(
-      children: <Widget>[
-        Text(
-          '- OR -',
-          style: TextStyle(
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Text(
-          'Sign in with',
-          style: kLabelStyle,
-        ),
-      ],
-    );
-  }
+
 
   Widget _buildSocialBtn(Function onTap, AssetImage logo) {
     return GestureDetector(
@@ -153,18 +136,6 @@ class _LogInState extends State<LogIn> {
       ),
     );
   }
-
-//  Widget _buildSocialBtnRow() {
-//    return Padding(
-//      padding: EdgeInsets.symmetric(vertical: 30.0),
-//      child: _buildSocialBtn(
-//            () => print('Login with Google'),
-//        AssetImage(
-//          'images/google.jpg',
-//        ),
-//      ),
-//    );
-//  }
 
 
   @override
@@ -206,7 +177,6 @@ class _LogInState extends State<LogIn> {
                         ),
                         _buildLoginBtn(),
                         _buildForgotPasswordBtn(),
-                        _buildSignInWithText(),
 
                         FutureBuilder(
                           future: Authentication.initializeFirebase(context: context),

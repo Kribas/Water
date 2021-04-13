@@ -1,6 +1,7 @@
 import 'package:drpani/Pages/AboutUs.dart';
 import 'package:drpani/Pages/ContactUs.dart';
 import 'package:drpani/Pages/Feedback.dart';
+import 'package:drpani/Pages/FirstPage.dart';
 import 'package:drpani/Pages/PrivacyPolicy.dart';
 import 'package:drpani/Pages/Profile.dart';
 import 'package:drpani/Pages/Refer.dart';
@@ -25,6 +26,25 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> {
 
   late User _user;
+
+  Route _routeToSignInScreen() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => FirstPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(-1.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween =
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -121,6 +141,17 @@ class _AppDrawerState extends State<AppDrawer> {
               title: Text('Contact Us'),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen()));
+              },
+
+            ),
+
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
+              onTap: () async{
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context)
+                    .pushReplacement(_routeToSignInScreen());
               },
 
             ),

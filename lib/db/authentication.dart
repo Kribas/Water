@@ -1,3 +1,4 @@
+import 'package:drpani/Pages/App.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,13 @@ class Authentication {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
     //add auto login logic
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if(user!=null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => App(user: user,))
+      );
+    }
     return firebaseApp;
 
   }
