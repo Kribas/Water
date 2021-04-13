@@ -6,10 +6,33 @@ import 'package:drpani/Pages/Profile.dart';
 import 'package:drpani/Pages/Refer.dart';
 import 'package:drpani/Pages/ShopNow.dart';
 import 'package:drpani/Pages/TermsandConditions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
+
+  final User _user;
+
+  const AppDrawer({Key? key, required User user})
+      : _user = user,
+        super(key: key);
+
+  @override
+  _AppDrawerState createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+
+  late User _user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _user = widget._user;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -20,11 +43,16 @@ class AppDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              accountName: Text('Kribas Rimal'),
-              accountEmail: Text('kribasrimal180@gmail.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('images/ball1.png'),
-              ),
+              accountName: Text(_user.displayName!),
+              accountEmail: Text(_user.email!),
+              currentAccountPicture: _user.photoURL != null
+                ? CircleAvatar(
+                backgroundImage: NetworkImage(_user.photoURL!),
+              )
+                  :
+                CircleAvatar(
+                  backgroundColor: Colors.grey,
+                )
             ),
             ListTile(
               onTap: () {

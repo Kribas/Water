@@ -1,3 +1,5 @@
+import 'package:drpani/Components/GoogleSignInButton.dart';
+import 'package:drpani/db/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:drpani/Utilities/Constants.dart';
@@ -28,7 +30,7 @@ class _LogInState extends State<LogIn> {
             hintText: 'Email',
             hintStyle: kHintTextStyle,
           ),
-          validator: (value) => !value.contains('@') ? "Field must contain a valid email" : null,
+          validator: (value) => !value!.contains('@') ? "Field must contain a valid email" : null,
           controller: _emailController,
         ),
       ],
@@ -49,7 +51,7 @@ class _LogInState extends State<LogIn> {
             hintStyle: kHintTextStyle,
           ),
           validator: (value) {
-            if(value.isEmpty) {
+            if(value!.isEmpty) {
               return 'The password field cannot be empty';
             }else if(value.length < 6) {
               return 'The password has to be atleast 6 characters long';
@@ -152,17 +154,17 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  Widget _buildSocialBtnRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
-      child: _buildSocialBtn(
-            () => print('Login with Google'),
-        AssetImage(
-          'images/google.jpg',
-        ),
-      ),
-    );
-  }
+//  Widget _buildSocialBtnRow() {
+//    return Padding(
+//      padding: EdgeInsets.symmetric(vertical: 30.0),
+//      child: _buildSocialBtn(
+//            () => print('Login with Google'),
+//        AssetImage(
+//          'images/google.jpg',
+//        ),
+//      ),
+//    );
+//  }
 
 
   @override
@@ -205,7 +207,25 @@ class _LogInState extends State<LogIn> {
                         _buildLoginBtn(),
                         _buildForgotPasswordBtn(),
                         _buildSignInWithText(),
-                        _buildSocialBtnRow(),
+
+                        FutureBuilder(
+                          future: Authentication.initializeFirebase(context: context),
+                          builder: (context,snapshot) {
+                            if(snapshot.hasError) {
+                              return Text('Error initializing firebase');
+                            } else if(snapshot.connectionState == ConnectionState.done) {
+                              return GoogleSignInButton();
+                            }
+                            return CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color> (
+                                Colors.orange
+                              ),
+                            );
+
+                          },
+                        ),
+
+
                       ],
                     ),
                   ),

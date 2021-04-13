@@ -29,7 +29,7 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
 
-  String category;
+  late String category;
   String dropdownValue = "Category";
 
   Widget _buildNameTF() {
@@ -47,7 +47,7 @@ class _SignUpState extends State<SignUp> {
           ),
           controller: _nameTextController,
           validator: (value) {
-            if(value.isEmpty) {
+            if(value!.isEmpty) {
               return "The name field cannot be empty";
             }
             return null;
@@ -71,7 +71,7 @@ class _SignUpState extends State<SignUp> {
             hintStyle: kHintTextStyle,
           ),
           controller: _emailTextController,
-          validator: (value) => !value.contains('@') ? "Field must contain a valid email" : null,
+          validator: (value) => !value!.contains('@') ? "Field must contain a valid email" : null,
         ),
       ],
     );
@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUp> {
           ),
           controller: _passwordTextController,
           validator: (value) {
-            if(value.isEmpty) {
+            if(value!.isEmpty) {
               return 'The password field cannot be empty';
             }else if(value.length < 6) {
               return 'The password has to be atleast 6 characters long';
@@ -122,9 +122,9 @@ class _SignUpState extends State<SignUp> {
           ),
           controller: _confirmPasswordTextController,
           validator: (value) {
-            if(value.isEmpty) {
+            if(value != null) {
               return 'The password field cannot be empty';
-            }else if(value.length < 6) {
+            }else if(value!.length < 6) {
               return 'The password has to be atleast 6 characters long';
             }else if(_passwordTextController.text!=value){
               return 'The passwords do not match';
@@ -146,11 +146,13 @@ class _SignUpState extends State<SignUp> {
         icon: const Icon(Icons.arrow_drop_down),
         iconSize: 24,
         elevation: 16,
-        onChanged: (String newValue) {
-      setState(() {
-      dropdownValue = newValue;
-      });
-      },
+        onChanged: (String? newValue)
+          {
+          setState(() {
+          dropdownValue = newValue!;
+          });
+          },
+
         items: <String>['Category',
           'Home',
           'Apartments,Housing and Colony',

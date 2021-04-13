@@ -2,10 +2,17 @@ import 'package:drpani/Pages/Home.dart';
 import 'package:drpani/Pages/Notifications.dart';
 import 'package:drpani/Pages/Profile.dart';
 import 'package:drpani/Pages/Refer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class App extends StatefulWidget {
+
+  final User _user;
+
+  const App({Key? key, required User user})
+    : _user = user,
+      super(key: key);
 
 
   @override
@@ -13,14 +20,22 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  late User _user;
 
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _user = widget._user;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: [
-        Home(),
+        Home(user: _user),
         NotificationsScreen(),
         ProfileScreen(),
         ReferScreen()

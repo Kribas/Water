@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "190910906928",
-    "project_id": "drpani-d6e79",
-    "storage_bucket": "drpani-d6e79.appspot.com"
+    "project_number": "404519308173",
+    "project_id": "drpani-b4b0a",
+    "storage_bucket": "drpani-b4b0a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:190910906928:android:62763359d29b8d36d6a3f5",
+        "mobilesdk_app_id": "1:404519308173:android:e9ab6e3aab88b6234bcbc4",
         "android_client_info": {
           "package_name": "com.example.drpani"
         }
       },
       "oauth_client": [
         {
-          "client_id": "190910906928-96fus4a7lm0re7htpqojifqjgoi1ns7p.apps.googleusercontent.com",
+          "client_id": "404519308173-50ts3gb9u933phi19c0k0o69hjm9ic82.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.drpani",
+            "certificate_hash": "4dda66df369a5c018f2e8797f03fb9bbd9569461"
+          }
+        },
+        {
+          "client_id": "404519308173-8kin7h0llt8sho75kbpgeib3tl48i242.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAoNzJ0nGMNfszuFkgiAMRHJYQ-UskqcUo"
+          "current_key": "AIzaSyB3xshdVWsrQU7GfkwZmnrJ8eE918mqYxA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "190910906928-96fus4a7lm0re7htpqojifqjgoi1ns7p.apps.googleusercontent.com",
+              "client_id": "404519308173-8kin7h0llt8sho75kbpgeib3tl48i242.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

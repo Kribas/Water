@@ -3,20 +3,33 @@ import 'package:drpani/Components/ImageCarousel.dart';
 import 'package:drpani/Components/Products.dart';
 import 'package:drpani/Components/drawer.dart';
 import 'package:drpani/Pages/Refer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
 class Home extends StatefulWidget {
 
-  final String uid;
+  final User _user;
 
-  Home({this.uid});
+  const Home({Key? key, required User user})
+      : _user = user,
+        super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
+  late User _user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _user = widget._user;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +37,7 @@ class _HomeState extends State<Home> {
         title: Text('Home'),
       ),
 
-      drawer: AppDrawer(),
+      drawer: AppDrawer(user: _user),
 
       body: SingleChildScrollView(
         child: Column(

@@ -9,7 +9,7 @@ class Product {
   final String name;
   final String picture;
 
-  Product({this.name,this.picture});
+  Product({required this.name,required this.picture});
 
   factory Product.fromJson(Map<String,dynamic> json) => _$ProductFromJson(json);
 

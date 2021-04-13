@@ -9,8 +9,8 @@ class ShopNowScreen extends StatefulWidget {
 
 class _ShopNowScreenState extends State<ShopNowScreen> {
 
-  Future<List<Product>> future;
-  List<Product> product;
+  late Future<List<Product>> future;
+  late List<Product> product;
 
   void fetch() async {
     future = Product.browse();
