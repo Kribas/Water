@@ -1,5 +1,5 @@
 import 'package:drpani/Pages/App.dart';
-import 'package:drpani/db/authentication.dart';
+import 'package:drpani/db/google_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: _isSigningIn
           ? CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
       )
           : OutlinedButton(
         style: ButtonStyle(
@@ -35,7 +35,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
           });
 
           // TODO: Add a method call to the Google Sign-In authentication
-          User? user = await Authentication.signInWithGoogle(context: context);
+          User? user = await GoogleAuthentication.signInWithGoogle(context: context);
 
           setState(() {
             _isSigningIn = false;

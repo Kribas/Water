@@ -2,7 +2,6 @@
 
 
 import 'package:drpani/Pages/FirstPage.dart';
-import 'package:drpani/Pages/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,7 +14,7 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProfileScreen(),
+    home: FirstPage(),
     theme: ThemeData(
       primarySwatch: Colors.lightBlue,
     ),

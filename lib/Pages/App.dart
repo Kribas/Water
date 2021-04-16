@@ -37,7 +37,7 @@ class _AppState extends State<App> {
       body: [
         Home(user: _user),
         NotificationsScreen(),
-        ProfileScreen(),
+        ProfileScreen(user: _user),
         ReferScreen()
 
       ].elementAt(_selectedIndex),

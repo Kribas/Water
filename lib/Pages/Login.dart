@@ -1,5 +1,5 @@
 import 'package:drpani/Components/GoogleSignInButton.dart';
-import 'package:drpani/db/authentication.dart';
+import 'package:drpani/db/google_authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:drpani/Utilities/Constants.dart';
@@ -179,7 +179,7 @@ class _LogInState extends State<LogIn> {
                         _buildForgotPasswordBtn(),
 
                         FutureBuilder(
-                          future: Authentication.initializeFirebase(context: context),
+                          future: GoogleAuthentication.initializeFirebase(context: context),
                           builder: (context,snapshot) {
                             if(snapshot.hasError) {
                               return Text('Error initializing firebase');

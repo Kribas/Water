@@ -63,19 +63,30 @@ class _AppDrawerState extends State<AppDrawer> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            InkWell(
+              onTap: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen(user: _user,)));
+
+              },
+              child: UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                accountName: Text(_user.displayName!),
+                accountEmail: Text(_user.email!),
+                currentAccountPicture: _user.photoURL != null
+                  ? CircleAvatar(
+                  backgroundImage: NetworkImage(_user.photoURL!),
+                )
+                    :
+                  CircleAvatar(
+                    backgroundColor: Colors.grey,
+                  )
               ),
-              accountName: Text(_user.displayName!),
-              accountEmail: Text(_user.email!),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('images/UserProfile.png'),
-              )
             ),
             ListTile(
               onTap: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen()));
+                Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen(user: _user,)));
               },
               leading: Icon(FontAwesomeIcons.user),
               title: Text('Profile'),
