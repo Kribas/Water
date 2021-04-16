@@ -10,6 +10,7 @@ import 'package:drpani/Pages/TermsandConditions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AppDrawer extends StatefulWidget {
 
@@ -26,6 +27,9 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> {
 
   late User _user;
+
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
 
   Route _routeToSignInScreen() {
     return PageRouteBuilder(
@@ -65,14 +69,9 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               accountName: Text(_user.displayName!),
               accountEmail: Text(_user.email!),
-              currentAccountPicture: _user.photoURL != null
-                ? CircleAvatar(
-                backgroundImage: NetworkImage(_user.photoURL!),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage('images/UserProfile.png'),
               )
-                  :
-                CircleAvatar(
-                  backgroundColor: Colors.grey,
-                )
             ),
             ListTile(
               onTap: () {
@@ -150,6 +149,8 @@ class _AppDrawerState extends State<AppDrawer> {
               title: Text('Log Out'),
               onTap: () async{
                 await FirebaseAuth.instance.signOut();
+                googleSignIn.signOut();
+
                 Navigator.of(context)
                     .pushReplacement(_routeToSignInScreen());
               },
