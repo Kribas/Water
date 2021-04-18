@@ -17,7 +17,8 @@ class _LogInState extends State<LogIn> {
 
 
 
-  Widget _buildNumberTF() {
+
+  Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -111,33 +112,6 @@ class _LogInState extends State<LogIn> {
 
 
 
-  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
-    return GestureDetector(
-      onTap: () {
-
-      },
-      child: Container(
-        height: 60.0,
-        width: 60.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
-          image: DecorationImage(
-            image: logo,
-          ),
-        ),
-      ),
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,7 +142,7 @@ class _LogInState extends State<LogIn> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              _buildNumberTF(),
+                              _buildEmailTF(),
                               SizedBox(height: 30.0),
                               _buildPasswordTF()
 

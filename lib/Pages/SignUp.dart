@@ -1,11 +1,13 @@
 import 'package:drpani/Pages/App.dart';
 import 'package:drpani/Pages/Home.dart';
+import 'package:drpani/db/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:drpani/Utilities/Constants.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:drpani/db/users.dart';
+
+import '../main.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -16,7 +18,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //UserServices _userServices = UserServices();
+  UserServices _userServices = UserServices();
 
   DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users");
 
@@ -122,9 +124,9 @@ class _SignUpState extends State<SignUp> {
           ),
           controller: _confirmPasswordTextController,
           validator: (value) {
-            if(value != null) {
+            if(value == null) {
               return 'The password field cannot be empty';
-            }else if(value!.length < 6) {
+            }else if(value.length < 6) {
               return 'The password has to be atleast 6 characters long';
             }else if(_passwordTextController.text!=value){
               return 'The passwords do not match';
@@ -138,44 +140,44 @@ class _SignUpState extends State<SignUp> {
   }
 
 
-  Widget _buildCategory() {
-    return Container(
-      width: 300,
-      child: DropdownButton<String>(
-        value: dropdownValue,
-        icon: const Icon(Icons.arrow_drop_down),
-        iconSize: 24,
-        elevation: 16,
-        onChanged: (String? newValue)
-          {
-          setState(() {
-          dropdownValue = newValue!;
-          });
-          },
-
-        items: <String>['Category',
-          'Home',
-          'Apartments,Housing and Colony',
-          'Office',
-          'Grocery Shop',
-          'Bank and Finanace',
-          'Restaurants and Bakery',
-          'Hotel and Guest House',
-          'Canteen',
-          'Super Market and Mini Mart',
-          'Hospital and Medical',
-          'Factory',
-          'Others'
-        ]
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      ),
-    );
-  }
+//  Widget _buildCategory() {
+//    return Container(
+//      width: 300,
+//      child: DropdownButton<String>(
+//        value: dropdownValue,
+//        icon: const Icon(Icons.arrow_drop_down),
+//        iconSize: 24,
+//        elevation: 16,
+//        onChanged: (String? newValue)
+//          {
+//          setState(() {
+//          dropdownValue = newValue!;
+//          });
+//          },
+//
+//        items: <String>['Category',
+//          'Home',
+//          'Apartments,Housing and Colony',
+//          'Office',
+//          'Grocery Shop',
+//          'Bank and Finanace',
+//          'Restaurants and Bakery',
+//          'Hotel and Guest House',
+//          'Canteen',
+//          'Super Market and Mini Mart',
+//          'Hospital and Medical',
+//          'Factory',
+//          'Others'
+//        ]
+//            .map<DropdownMenuItem<String>>((String value) {
+//          return DropdownMenuItem<String>(
+//            value: value,
+//            child: Text(value),
+//          );
+//        }).toList(),
+//      ),
+//    );
+//  }
 
   Widget _buildSignUpBtn() {
     return Container(
@@ -184,6 +186,10 @@ class _SignUpState extends State<SignUp> {
       child: RaisedButton(
         elevation: 0.0,
         onPressed: () {
+          if(_formKey.currentState!.validate()) {
+            registerNewUser(context);
+          }
+
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -254,7 +260,7 @@ class _SignUpState extends State<SignUp> {
                         SizedBox(
                           height: 30.0,
                         ),
-                        _buildCategory(),
+                       // _buildCategory(),
                         SizedBox(
                           height: 30.0,
                         ),
@@ -272,6 +278,33 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
+  registerNewUser(BuildContext context) async {
+    final User firebaseUser = firebaseAuth.currentUser!;
+
+    // ignore: unnecessary_null_comparison
+    if(firebaseUser == null) {
+      firebaseAuth.createUserWithEmailAndPassword(
+      email: _emailTextController.text,
+      password: _passwordTextController.text)
+
+      .then((user) => {
+        _userServices.createUser(
+        {
+          "name": _nameTextController.text,
+          "email": _emailTextController.text,
+          "confirmpassword": _confirmPasswordTextController.text
+        }
+        )
+    }).catchError((err) => {print(err.toString())});
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => App(user: firebaseUser)));
+
+    }
+
+
+  }
+
 
 }
 

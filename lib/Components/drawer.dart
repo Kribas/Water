@@ -66,7 +66,6 @@ class _AppDrawerState extends State<AppDrawer> {
             InkWell(
               onTap: () {
                 Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen(user: _user,)));
-
               },
               child: UserAccountsDrawerHeader(
                 decoration: BoxDecoration(

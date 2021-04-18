@@ -6,7 +6,7 @@ class UserServices {
 
   createUser(Map value) {
     _database.reference().child(ref).push().set(
-      value
+        value
     ).catchError((e) => {print(e.toString())});
   }
 }
