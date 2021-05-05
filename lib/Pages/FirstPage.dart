@@ -12,13 +12,13 @@ class FirstPage extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(
+                text: 'Login',
                 icon: Icon(Icons.lock,
-                color: Colors.white,
                 ),
               ),
               Tab(
+                text: 'SignUp',
                 icon: Icon(Icons.person,
-                color: Colors.white,
                 ),
               )
             ],

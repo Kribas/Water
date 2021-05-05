@@ -8,11 +8,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class App extends StatefulWidget {
 
-  final User _user;
-
-  const App({Key key, User user})
-    : _user = user,
-      super(key: key);
+//  final User _user;
+//
+//  const App({Key key, User user})
+//    : _user = user,
+//      super(key: key);
 
 
   @override
@@ -24,20 +24,19 @@ class _AppState extends State<App> {
 
   int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    _user = widget._user;
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    _user = widget._user;
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: [
-        Home(user: _user),
+        Home(),
         NotificationsScreen(),
-        ProfileScreen(user: _user),
+        ProfileScreen(),
         ReferScreen()
 
       ].elementAt(_selectedIndex),

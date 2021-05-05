@@ -1,8 +1,12 @@
 import 'package:drpani/Components/GoogleSignInButton.dart';
+import 'package:drpani/Components/Loading.dart';
+import 'package:drpani/Pages/App.dart';
 import 'package:drpani/db/google_authentication.dart';
+import 'package:drpani/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:drpani/Utilities/Constants.dart';
+import 'package:provider/provider.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -105,41 +109,16 @@ class _LogInState extends State<LogIn> {
 //  }
 
 
-  Widget _buildLoginBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: 300,
-      child: RaisedButton(
-        elevation: 0.0,
-        onPressed: () {
 
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.deepPurple[900],
-        child: Text(
-          'LOGIN',
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
 
 
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context);
     return Scaffold(
       key: _key,
-      body: Stack(
+      body: user.status == Status.Authenticating ? Loading() : Stack(
               children: <Widget>[
                 Container(
                   height: double.infinity,
@@ -168,7 +147,38 @@ class _LogInState extends State<LogIn> {
 
                               ],
                             ),
-                            _buildLoginBtn(),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 25.0),
+                            width: 300,
+                            child: RaisedButton(
+                              elevation: 0.0,
+                              onPressed: () async {
+                                if(_formKey.currentState.validate()) {
+                                  if(!await user.signIn(_email.text, _password.text)) {
+                                      _key.currentState.showSnackBar(SnackBar(content: Text('SignIn Failed')));
+                                      return;
+                                  }
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => App()));
+
+                                }
+                              },
+                              padding: EdgeInsets.all(15.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              color: Colors.deepPurple[900],
+                              child: Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  letterSpacing: 1.5,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'OpenSans',
+                                ),
+                              ),
+                            ),
+                          ),
                             //_buildForgotPasswordBtn(),
 
                             FutureBuilder(

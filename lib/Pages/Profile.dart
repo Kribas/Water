@@ -5,11 +5,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfileScreen extends StatefulWidget {
 
-  final User _user;
-
-  const ProfileScreen({Key key, User user})
-      : _user = user,
-        super(key: key);
+//  final User _user;
+//
+//  const ProfileScreen({Key key, User user})
+//      : _user = user,
+//        super(key: key);
 
 
   @override
@@ -18,40 +18,21 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
-   User _user;
+  // User _user;
 
   bool isSwitched = false;
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  Route _routeToSignInScreen() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => FirstPage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(-1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-
-        var tween =
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
 
 
 
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    _user = widget._user;
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    // TODO: implement initState
+//    _user = widget._user;
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +53,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                _user.photoURL != null ?
-                CircleAvatar(
-                  backgroundImage: NetworkImage(_user.photoURL),
-                  radius: 50,
-                )
-                :
+//                _user.photoURL != null ?
+//                CircleAvatar(
+//                  backgroundImage: NetworkImage(_user.photoURL),
+//                  radius: 50,
+//                )
+//                :
                 CircleAvatar(
                   backgroundImage: AssetImage('images/UserProfile.png'),
                   radius: 50,
@@ -87,14 +68,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   SizedBox(height: 10,),
 
-                  Text(_user.displayName,
+                  Text("Kribas Rimal",
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: Colors.white
                   ),
                   ),
-                  Text(_user.email,
+                  Text("kribasrimal180@gmail.com",
                     style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -225,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         googleSignIn.signOut();
 
                         Navigator.of(context)
-                            .pushReplacement(_routeToSignInScreen());
+                            .pushReplacement(MaterialPageRoute(builder: (context) => FirstPage()));
                       },
                       leading: Icon(Icons.logout,
                         color: Colors.blueAccent,

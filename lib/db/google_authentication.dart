@@ -14,7 +14,7 @@ class GoogleAuthentication {
 
     if(user!=null) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => App(user: user,))
+        MaterialPageRoute(builder: (context) => App())
       );
     }
     return firebaseApp;

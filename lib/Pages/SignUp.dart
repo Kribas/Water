@@ -1,12 +1,10 @@
+import 'package:drpani/Components/Loading.dart';
 import 'package:drpani/Pages/App.dart';
-import 'package:drpani/Pages/Home.dart';
-import 'package:drpani/Pages/Notifications.dart';
-import 'package:drpani/db/user_model.dart';
+import 'package:drpani/provider/user_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:drpani/Utilities/Constants.dart';
-import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 
@@ -19,7 +17,6 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  UserServices _userServices = UserServices();
 
   DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users");
 
@@ -131,36 +128,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-//  Widget _buildReEnterPasswordTF() {
-//    return Column(
-//      crossAxisAlignment: CrossAxisAlignment.start,
-//      children: <Widget>[
-//        TextFormField(
-//          keyboardType: TextInputType.text,
-//          obscureText: true,
-//          style: TextStyle(
-//            fontFamily: 'OpenSans',
-//          ),
-//          decoration: InputDecoration(
-//            hintText: 'Re-enter Password',
-//            hintStyle: kHintTextStyle,
-//          ),
-//          controller: _confirmPasswordTextController,
-//          validator: (value) {
-//            if(value == null) {
-//              return 'The password field cannot be empty';
-//            }else if(value.length < 6) {
-//              return 'The password has to be atleast 6 characters long';
-//            }else if(_password.text!=value){
-//              return 'The passwords do not match';
-//            }else {
-//              return null;
-//            }
-//          },
-//        ),
-//      ],
-//    );
-//  }
 
 
 //  Widget _buildCategory() {
@@ -202,40 +169,13 @@ class _SignUpState extends State<SignUp> {
 //    );
 //  }
 
-  Widget _buildSignUpBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: 300,
-      child: RaisedButton(
-        elevation: 0.0,
-        onPressed: () {
-
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.deepPurple[900],
-        child: Text(
-          'SIGNUP',
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
+      final user = Provider.of<UserProvider>(context);
     return Scaffold(
       key: _key,
-      body: Stack(
+      body: user.status == Status.Authenticating ? Loading() : Stack(
         children: <Widget>[
           Container(
             height: double.infinity,
@@ -266,8 +206,37 @@ class _SignUpState extends State<SignUp> {
 
                         ],
                       ),
-                      _buildSignUpBtn(),
-                      //_buildForgotPasswordBtn()
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 25.0),
+                    width: 300,
+                    child: RaisedButton(
+                      elevation: 0.0,
+                      onPressed: () async {
+                          if(_formKey.currentState.validate()) {
+                            if(!await user.signUp(_name.text, _email.text, _password.text)) {
+                              _key.currentState.showSnackBar(SnackBar(content: Text('SignUp failed')));
+                              return;
+                            }
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => App()));
+                          }
+                      },
+                      padding: EdgeInsets.all(15.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      color: Colors.deepPurple[900],
+                      child: Text(
+                        'SIGNUP',
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing: 1.5,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'OpenSans',
+                        ),
+                      ),
+                    ),
+                  )
                     ],
                   ),
                 ),

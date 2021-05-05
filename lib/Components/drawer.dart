@@ -7,18 +7,20 @@ import 'package:drpani/Pages/Profile.dart';
 import 'package:drpani/Pages/Refer.dart';
 import 'package:drpani/Pages/ShopNow.dart';
 import 'package:drpani/Pages/TermsandConditions.dart';
+import 'package:drpani/provider/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatefulWidget {
 
-  final User _user;
-
-  const AppDrawer({Key key, User user})
-      : _user = user,
-        super(key: key);
+//  final User _user;
+//
+//  const AppDrawer({Key key, User user})
+//      : _user = user,
+//        super(key: key);
 
   @override
   _AppDrawerState createState() => _AppDrawerState();
@@ -26,7 +28,7 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
 
-   User _user;
+   //User _user;
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -50,34 +52,34 @@ class _AppDrawerState extends State<AppDrawer> {
     );
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    _user = widget._user;
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    // TODO: implement initState
+//    _user = widget._user;
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
+
+
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
           children: [
             InkWell(
               onTap: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen(user: _user,)));
+                Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen()));
               },
               child: UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                accountName: Text(_user.displayName),
-                accountEmail: Text(_user.email),
-                currentAccountPicture: _user.photoURL != null
-                  ? CircleAvatar(
-                  backgroundImage: NetworkImage(_user.photoURL),
-                )
-                    :
+                accountName: Text("Kribas Rimal"),
+                accountEmail: Text("kribasrimal180@gmail.com"),
+                currentAccountPicture:
                   CircleAvatar(
                     backgroundColor: Colors.grey,
                   )
@@ -85,7 +87,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             ListTile(
               onTap: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen(user: _user,)));
+                Navigator.push(context,MaterialPageRoute(builder: (context) => ProfileScreen()));
               },
               leading: Icon(FontAwesomeIcons.user),
               title: Text('Profile'),
@@ -159,7 +161,8 @@ class _AppDrawerState extends State<AppDrawer> {
               title: Text('Log Out'),
               onTap: () async{
                 await FirebaseAuth.instance.signOut();
-                //googleSignIn.signOut();
+                googleSignIn.signOut();
+                userProvider.signOut();
 
                 Navigator.of(context)
                     .pushReplacement(_routeToSignInScreen());

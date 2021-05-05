@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
 
-  final User _user;
-
-  const Home({Key key, User user})
-      : _user = user,
-        super(key: key);
+//  final User _user;
+//
+//  const Home({Key key, User user})
+//      : _user = user,
+//        super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -21,14 +21,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  User _user;
+  //User _user;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    _user = widget._user;
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    // TODO: implement initState
+//    _user = widget._user;
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
         title: Text('Home'),
       ),
 
-      drawer: AppDrawer(user: _user),
+      drawer: AppDrawer(),
 
       body: SingleChildScrollView(
         child: Column(
