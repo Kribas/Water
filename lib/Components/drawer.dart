@@ -16,7 +16,7 @@ class AppDrawer extends StatefulWidget {
 
   final User _user;
 
-  const AppDrawer({Key? key, required User user})
+  const AppDrawer({Key key, User user})
       : _user = user,
         super(key: key);
 
@@ -26,7 +26,7 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
 
-  late User _user;
+   User _user;
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -71,11 +71,11 @@ class _AppDrawerState extends State<AppDrawer> {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                accountName: Text(_user.displayName!),
-                accountEmail: Text(_user.email!),
+                accountName: Text(_user.displayName),
+                accountEmail: Text(_user.email),
                 currentAccountPicture: _user.photoURL != null
                   ? CircleAvatar(
-                  backgroundImage: NetworkImage(_user.photoURL!),
+                  backgroundImage: NetworkImage(_user.photoURL),
                 )
                     :
                   CircleAvatar(
@@ -159,7 +159,7 @@ class _AppDrawerState extends State<AppDrawer> {
               title: Text('Log Out'),
               onTap: () async{
                 await FirebaseAuth.instance.signOut();
-                googleSignIn.signOut();
+                //googleSignIn.signOut();
 
                 Navigator.of(context)
                     .pushReplacement(_routeToSignInScreen());

@@ -1,5 +1,6 @@
 import 'package:drpani/Pages/App.dart';
 import 'package:drpani/Pages/Home.dart';
+import 'package:drpani/Pages/Notifications.dart';
 import 'package:drpani/db/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -23,121 +24,143 @@ class _SignUpState extends State<SignUp> {
   DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users");
 
 
-  TextEditingController _nameTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _confirmPasswordTextController = TextEditingController();
+  TextEditingController _name = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
-
-  late String category;
-  String dropdownValue = "Category";
+  final _key = GlobalKey<ScaffoldState>();
+  bool hidePass = true;
 
   Widget _buildNameTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TextFormField(
-          keyboardType: TextInputType.text,
-          style: TextStyle(
-            fontFamily: 'OpenSans',
+    return Padding(
+      padding:
+      const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.grey.withOpacity(0.3),
+        elevation: 0.0,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: ListTile(
+            title: TextFormField(
+              controller: _name,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Full Name",
+                icon: Icon(Icons.person_outline),
+              ),
+              validator: (value) {
+                if(value.isEmpty) {
+                  return 'The name field cannot be empty';
+                }else {
+                  return null;
+                }
+              },
+            ),
           ),
-          decoration: InputDecoration(
-            hintText: 'Name',
-            hintStyle: kHintTextStyle,
-          ),
-          controller: _nameTextController,
-          validator: (value) {
-            if(value!.isEmpty) {
-              return "The name field cannot be empty";
-            }
-            return null;
-          },
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildMobileNumberTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TextFormField(
-          keyboardType: TextInputType.emailAddress,
-          style: TextStyle(
-            fontFamily: 'OpenSans',
+  Widget _buildEmailTF() {
+    return Padding(
+      padding:
+      const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.grey.withOpacity(0.3),
+        elevation: 0.0,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: ListTile(
+            title: TextFormField(
+              controller: _email,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Email",
+                icon: Icon(Icons.alternate_email),
+              ),
+              validator: (value) => !value.contains('@') ? 'Enter a valid email' : null,
+            ),
           ),
-          decoration: InputDecoration(
-            hintText: 'Email',
-            hintStyle: kHintTextStyle,
-          ),
-          controller: _emailTextController,
-          validator: (value) => !value!.contains('@') ? "Field must contain a valid email" : null,
         ),
-      ],
+      ),
     );
   }
 
   Widget _buildNewPasswordTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TextFormField(
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          style: TextStyle(
-            fontFamily: 'OpenSans',
+    return Padding(
+      padding:
+      const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.grey.withOpacity(0.3),
+        elevation: 0.0,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: ListTile(
+            title: TextFormField(
+              obscureText: hidePass,
+              controller: _password,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Password",
+                icon: Icon(Icons.lock_outline),
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "The password field cannot be empty";
+                } else if (value.length < 6) {
+                  return "the password has to be at least 6 characters long";
+                }
+                return null;
+              },
+            ),
+            trailing: IconButton(
+                icon: Icon(Icons.remove_red_eye),
+                onPressed: () {
+                  setState(() {
+                    hidePass = !hidePass;
+                  });
+                }),
           ),
-          decoration: InputDecoration(
-            hintText: 'New Password',
-            hintStyle: kHintTextStyle,
-          ),
-          controller: _passwordTextController,
-          validator: (value) {
-            if(value!.isEmpty) {
-              return 'The password field cannot be empty';
-            }else if(value.length < 6) {
-              return 'The password has to be atleast 6 characters long';
-            }else {
-              return null;
-            }
-          },
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildReEnterPasswordTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TextFormField(
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          style: TextStyle(
-            fontFamily: 'OpenSans',
-          ),
-          decoration: InputDecoration(
-            hintText: 'Re-enter Password',
-            hintStyle: kHintTextStyle,
-          ),
-          controller: _confirmPasswordTextController,
-          validator: (value) {
-            if(value == null) {
-              return 'The password field cannot be empty';
-            }else if(value.length < 6) {
-              return 'The password has to be atleast 6 characters long';
-            }else if(_passwordTextController.text!=value){
-              return 'The passwords do not match';
-            }else {
-              return null;
-            }
-          },
-        ),
-      ],
-    );
-  }
+//  Widget _buildReEnterPasswordTF() {
+//    return Column(
+//      crossAxisAlignment: CrossAxisAlignment.start,
+//      children: <Widget>[
+//        TextFormField(
+//          keyboardType: TextInputType.text,
+//          obscureText: true,
+//          style: TextStyle(
+//            fontFamily: 'OpenSans',
+//          ),
+//          decoration: InputDecoration(
+//            hintText: 'Re-enter Password',
+//            hintStyle: kHintTextStyle,
+//          ),
+//          controller: _confirmPasswordTextController,
+//          validator: (value) {
+//            if(value == null) {
+//              return 'The password field cannot be empty';
+//            }else if(value.length < 6) {
+//              return 'The password has to be atleast 6 characters long';
+//            }else if(_password.text!=value){
+//              return 'The passwords do not match';
+//            }else {
+//              return null;
+//            }
+//          },
+//        ),
+//      ],
+//    );
+//  }
 
 
 //  Widget _buildCategory() {
@@ -186,9 +209,6 @@ class _SignUpState extends State<SignUp> {
       child: RaisedButton(
         elevation: 0.0,
         onPressed: () {
-          if(_formKey.currentState!.validate()) {
-            registerNewUser(context);
-          }
 
         },
         padding: EdgeInsets.all(15.0),
@@ -214,95 +234,52 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: ExactAssetImage('images/drpani_logo.jpg'),
-                        ),
-                        SizedBox(height: 30.0),
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              _buildNameTF(),
-                              SizedBox(
-                                height: 30.0,
-                              ),
-                              _buildMobileNumberTF(),
-                              SizedBox(
-                                height: 30.0,
-                              ),
-                              _buildNewPasswordTF(),
-                              SizedBox(
-                                height: 30.0,
-                              ),
-                              _buildReEnterPasswordTF(),
-                              SizedBox(
-                                height: 30.0,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                       // _buildCategory(),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        _buildSignUpBtn()
+      key: _key,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            height: double.infinity,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundImage: ExactAssetImage('images/drpani_logo.jpg'),
+                      ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
 
+                      Column(
+                        children: [
+                          _buildNameTF(),
+                          SizedBox(height: 30.0),
+                          _buildEmailTF(),
+                          SizedBox(height: 30.0),
+                          _buildNewPasswordTF()
 
-                      ],
-                    ),
+                        ],
+                      ),
+                      _buildSignUpBtn(),
+                      //_buildForgotPasswordBtn()
+                    ],
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
+            ),
+          )
+        ],
       ),
+
+
+
     );
-  }
-
-  registerNewUser(BuildContext context) async {
-    final User firebaseUser = firebaseAuth.currentUser!;
-
-    // ignore: unnecessary_null_comparison
-    if(firebaseUser == null) {
-      firebaseAuth.createUserWithEmailAndPassword(
-      email: _emailTextController.text,
-      password: _passwordTextController.text)
-
-      .then((user) => {
-        _userServices.createUser(
-        {
-          "name": _nameTextController.text,
-          "email": _emailTextController.text,
-          "confirmpassword": _confirmPasswordTextController.text
-        }
-        )
-    }).catchError((err) => {print(err.toString())});
-
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => App(user: firebaseUser)));
-
-    }
-
-
   }
 
 

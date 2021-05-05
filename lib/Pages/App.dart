@@ -10,7 +10,7 @@ class App extends StatefulWidget {
 
   final User _user;
 
-  const App({Key? key, required User user})
+  const App({Key key, User user})
     : _user = user,
       super(key: key);
 
@@ -20,7 +20,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late User _user;
+   User _user;
 
   int _selectedIndex = 0;
 

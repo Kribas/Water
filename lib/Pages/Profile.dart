@@ -7,7 +7,7 @@ class ProfileScreen extends StatefulWidget {
 
   final User _user;
 
-  const ProfileScreen({Key? key, required User user})
+  const ProfileScreen({Key key, User user})
       : _user = user,
         super(key: key);
 
@@ -18,7 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
-  late User _user;
+   User _user;
 
   bool isSwitched = false;
 
@@ -74,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 _user.photoURL != null ?
                 CircleAvatar(
-                  backgroundImage: NetworkImage(_user.photoURL!),
+                  backgroundImage: NetworkImage(_user.photoURL),
                   radius: 50,
                 )
                 :
@@ -87,14 +87,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   SizedBox(height: 10,),
 
-                  Text(_user.displayName!,
+                  Text(_user.displayName,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: Colors.white
                   ),
                   ),
-                  Text(_user.email!,
+                  Text(_user.email,
                     style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,

@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "404519308173",
+    "firebase_url": "https://drpani-b4b0a-default-rtdb.firebaseio.com",
     "project_id": "drpani-b4b0a",
     "storage_bucket": "drpani-b4b0a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:404519308173:android:e9ab6e3aab88b6234bcbc4",
+        "mobilesdk_app_id": "1:404519308173:android:b7e5c58c2f248d2c4bcbc4",
         "android_client_info": {
           "package_name": "com.example.drpani"
         }

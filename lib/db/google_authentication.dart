@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuthentication {
-  static Future<FirebaseApp> initializeFirebase({required BuildContext context}) async {
+  static Future<FirebaseApp> initializeFirebase({BuildContext context}) async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
     //add auto login logic
-    User? user = FirebaseAuth.instance.currentUser;
+    User user = FirebaseAuth.instance.currentUser;
 
     if(user!=null) {
       Navigator.of(context).pushReplacement(
@@ -20,13 +20,13 @@ class GoogleAuthentication {
     return firebaseApp;
 
   }
-  static Future<User?> signInWithGoogle({required BuildContext context}) async {
+  static Future<User> signInWithGoogle({BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
+    User user;
 
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 
     if(googleSignInAccount!=null) {
       final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
@@ -71,7 +71,7 @@ class GoogleAuthentication {
     return user;
   }
 
-  static SnackBar customSnackBar({ required String content}) {
+  static SnackBar customSnackBar({String content}) {
     return SnackBar(
       backgroundColor: Colors.black,
       content:  Text(

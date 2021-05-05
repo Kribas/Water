@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 
   final User _user;
 
-  const Home({Key? key, required User user})
+  const Home({Key key, User user})
       : _user = user,
         super(key: key);
 
@@ -21,7 +21,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  late User _user;
+  User _user;
 
   @override
   void initState() {
