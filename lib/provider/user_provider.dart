@@ -2,10 +2,14 @@ import 'package:drpani/Models/user.dart';
 import 'package:drpani/services/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 enum Status {Uninitialized, Authenticated, Authenticating, Unauthenticated}
 
 class UserProvider with ChangeNotifier {
+
+  final googleSignIn = GoogleSignIn();
+
   FirebaseAuth _auth;
   UserServices _userServices = UserServices();
   User _user;
@@ -59,6 +63,32 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
       print(e.toString());
       notifyListeners();
+    }
+  }
+
+
+  Future<bool> signInwithGoogle() async {
+    GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
+
+      _status = Status.Authenticating;
+      notifyListeners();
+      AuthCredential credential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+
+      UserCredential result = await _auth.signInWithCredential(credential);
+
+      User user = _auth.currentUser;
+      _userModel = await _userServices.getUserById(user.uid);
+      notifyListeners();
+
+      print(user.uid);
+
+      return Future.value(true);
     }
   }
 
