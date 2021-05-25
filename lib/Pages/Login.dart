@@ -1,7 +1,5 @@
-import 'package:drpani/Components/GoogleSignInButton.dart';
 import 'package:drpani/Components/Loading.dart';
 import 'package:drpani/Pages/App.dart';
-import 'package:drpani/db/google_authentication.dart';
 import 'package:drpani/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -179,24 +177,6 @@ class _LogInState extends State<LogIn> {
                               ),
                             ),
                           ),
-                            //_buildForgotPasswordBtn(),
-
-                            FutureBuilder(
-                              future: GoogleAuthentication.initializeFirebase(context: context),
-                              builder: (context,snapshot) {
-                                if(snapshot.hasError) {
-                                  return Text('Error initializing firebase');
-                                } else if(snapshot.connectionState == ConnectionState.done) {
-                                  return GoogleSignInButton();
-                                }
-                                return CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color> (
-                                    Colors.orange
-                                  ),
-                                );
-
-                              },
-                            ),
 
 
                           ],
