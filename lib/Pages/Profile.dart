@@ -1,15 +1,18 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:drpani/Pages/FirstPage.dart';
+import 'package:drpani/provider/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:drpani/Components/avatar.dart';
 
 class ProfileScreen extends StatefulWidget {
 
-//  final User _user;
-//
-//  const ProfileScreen({Key key, User user})
-//      : _user = user,
-//        super(key: key);
 
 
   @override
@@ -18,24 +21,47 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
-  // User _user;
 
   bool isSwitched = false;
 
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final picker = ImagePicker();
+
+  File imageFile;
+
+  Future getImage() async {
+     PickedFile pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+     var tempImage = File(pickedFile.path);
+     setState(() {
+       if(pickedFile!=null) {
+         imageFile = tempImage;
+       }else {
+         print('No image selected');
+       }
+     });
+  }
+
+  uploadImage() {
+    var randomno = Random(25);
+    final Reference storageRef = FirebaseStorage.instance.ref().child(
+      'profilepics/${randomno.nextInt(5000).toString()}.jpg');
+
+    UploadTask task = storageRef.putFile(imageFile);
+
+    task.then((value) {
+
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  String imageLink;
 
 
-
-
-//  @override
-//  void initState() {
-//    // TODO: implement initState
-//    _user = widget._user;
-//    super.initState();
-//  }
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
 
 
     return Scaffold(
@@ -59,23 +85,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //                  radius: 50,
 //                )
 //                :
-                CircleAvatar(
-                  backgroundImage: AssetImage('images/UserProfile.png'),
-                  radius: 50,
-                ),
+               Avatar(
+                  avatarUrl: userProvider.userModel?.photoUrl,
+                  onTap: () {}
+               ),
 
 
 
                   SizedBox(height: 10,),
 
-                  Text("Kribas Rimal",
+                  Text(userProvider.userModel?.name ?? "loading username",
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: Colors.white
                   ),
                   ),
-                  Text("kribasrimal180@gmail.com",
+                  Text(userProvider.userModel?.email??"loading email",
                     style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -201,10 +227,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: ListTile(
-                      onTap: () async {
-                        await FirebaseAuth.instance.signOut();
-                        googleSignIn.signOut();
-
+                      onTap: () {
+                        userProvider.signOut();
                         Navigator.of(context)
                             .pushReplacement(MaterialPageRoute(builder: (context) => FirstPage()));
                       },

@@ -16,11 +16,6 @@ import 'package:provider/provider.dart';
 
 class AppDrawer extends StatefulWidget {
 
-//  final User _user;
-//
-//  const AppDrawer({Key key, User user})
-//      : _user = user,
-//        super(key: key);
 
   @override
   _AppDrawerState createState() => _AppDrawerState();
@@ -28,9 +23,6 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
 
-   //User _user;
-
-  final GoogleSignIn googleSignIn = GoogleSignIn();
 
 
   Route _routeToSignInScreen() {
@@ -52,12 +44,6 @@ class _AppDrawerState extends State<AppDrawer> {
     );
   }
 
-//  @override
-//  void initState() {
-//    // TODO: implement initState
-//    _user = widget._user;
-//    super.initState();
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +63,8 @@ class _AppDrawerState extends State<AppDrawer> {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                accountName: Text("Kribas Rimal"),
-                accountEmail: Text("kribasrimal180@gmail.com"),
+                accountName: Text(userProvider.userModel?.name ?? "loading username"),
+                accountEmail: Text(userProvider.userModel?.email??"loading email"),
                 currentAccountPicture:
                   CircleAvatar(
                     backgroundColor: Colors.grey,
@@ -159,11 +145,8 @@ class _AppDrawerState extends State<AppDrawer> {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Log Out'),
-              onTap: () async{
-                await FirebaseAuth.instance.signOut();
-                googleSignIn.signOut();
+              onTap: () {
                 userProvider.signOut();
-
                 Navigator.of(context)
                     .pushReplacement(_routeToSignInScreen());
               },
