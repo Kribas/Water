@@ -84,11 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //                  backgroundImage: NetworkImage(_user.photoURL),
 //                  radius: 50,
 //                )
-//                :
-               Avatar(
-                  avatarUrl: userProvider.userModel?.photoUrl,
-                  onTap: () {}
-               ),
+//
 
 
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:drpani/Utilities/Constants.dart';
 import 'package:provider/provider.dart';
+import 'package:drpani/Pages/ForgotPassword.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -91,20 +92,20 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-//  Widget _buildForgotPasswordBtn() {
-//    return Container(
-//      child: FlatButton(
-//        onPressed: () {
-//
-//        },
-//        padding: EdgeInsets.only(right: 0.0),
-//        child: Text(
-//          'Forgot Password?',
-//          style: kLabelStyle,
-//        ),
-//      ),
-//    );
-//  }
+  Widget _buildForgotPasswordBtn() {
+    return Container(
+      child: FlatButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword()));
+        },
+        padding: EdgeInsets.only(right: 0.0),
+        child: Text(
+          'Forgot Password?',
+          style: kLabelStyle,
+        ),
+      ),
+    );
+  }
 
 
 
@@ -177,6 +178,8 @@ class _LogInState extends State<LogIn> {
                               ),
                             ),
                           ),
+
+                            _buildForgotPasswordBtn()
 
 
                           ],
